@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom, JpaSpecificationExecutor<Member> {
 
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age); // 파라미터가 길어지면 답이 없음 2개 이상 넘어가면 NameQuery로 해결하는게 좋음
 
@@ -80,4 +80,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, MemberRep
     // select for update
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<Member> findLockByUsername(String username);
+
+    List<UsernameOnly> findProjectionsByUsername(@Param("username") String username);
 }
